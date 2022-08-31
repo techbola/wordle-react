@@ -1,5 +1,5 @@
-import React, { useState, createContext } from "react";
-import { boardDefault } from "./Words";
+import React, { useEffect, useState, createContext } from "react";
+import { boardDefault, generateWordSet } from "./Words";
 import "./App.css";
 import Board from "./components/Board";
 import Keyboard from "./components/Keyboard";
@@ -9,6 +9,8 @@ export const AppContext = createContext();
 function App() {
   const [board, setBoard] = useState(boardDefault);
   const [currAttempt, setCurrAttempt] = useState({ attempt: 0, letterPos: 0 });
+  const [wordSet, setWordSet] = useState(new Set());
+  const [disabledLetters, setDisabledLetters] = useState([]);
 
   const onSelectLetter = (keyVal) => {
     if (currAttempt.letterPos > 4) return;
@@ -17,6 +19,16 @@ function App() {
     setBoard(newBoard);
     setCurrAttempt({ ...currAttempt, letterPos: currAttempt.letterPos + 1 });
   };
+
+  const correctWord = "RIGHT";
+
+  useEffect(() => {
+    generateWordSet().then((words) => {
+      console.log(words);
+      // set valid word - from wordbank (like dictionary)
+      setWordSet(words.wordSet);
+    });
+  }, []);
 
   const onDelete = () => {
     if (currAttempt.letterPos === 0) return;
@@ -28,7 +40,22 @@ function App() {
 
   const onEnter = () => {
     if (currAttempt.letterPos !== 5) return;
-    setCurrAttempt({ attempt: currAttempt.attempt + 1, letterPos: 0 });
+
+    let currWord = "";
+    for (let i = 0; i < 5; i++) {
+      currWord += board[currAttempt.attempt][i];
+    }
+
+    // validate that the word user input is a valida word
+    if (wordSet.has(currWord.toLowerCase())) {
+      setCurrAttempt({ attempt: currAttempt.attempt + 1, letterPos: 0 });
+    } else {
+      alert("Word Not found");
+    }
+
+    if (currWord === correctWord) {
+      alert("Game ended - You WON!");
+    }
   };
 
   return (
@@ -45,6 +72,9 @@ function App() {
           onSelectLetter,
           onDelete,
           onEnter,
+          correctWord,
+          disabledLetters,
+          setDisabledLetters,
         }}
       >
         <div className="game">
