@@ -16,6 +16,7 @@ function App() {
     gameOver: false,
     guessedWord: false,
   });
+  const [correctWord, setCorrectWord] = useState("");
 
   const onSelectLetter = (keyVal) => {
     if (currAttempt.letterPos > 4) return;
@@ -25,13 +26,11 @@ function App() {
     setCurrAttempt({ ...currAttempt, letterPos: currAttempt.letterPos + 1 });
   };
 
-  const correctWord = "RIGHT";
-
   useEffect(() => {
     generateWordSet().then((words) => {
-      console.log(words);
       // set valid word - from wordbank (like dictionary)
       setWordSet(words.wordSet);
+      setCorrectWord(words.todaysWord);
     });
   }, []);
 
