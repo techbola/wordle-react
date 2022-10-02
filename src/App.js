@@ -57,9 +57,6 @@ function App() {
       alert("Word Not found");
     }
 
-    console.log("currWord", currWord);
-    console.log("correctWord", correctWord);
-
     if (currWord.toLowerCase() === correctWord) {
       SetGameOver({
         gameOver: true,
