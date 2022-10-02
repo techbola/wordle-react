@@ -10,12 +10,14 @@ function Letter({ letterPos, attemptVal }) {
   const almost =
     !correct && letter !== "" && correctWord.toUpperCase().includes(letter);
 
-  const letterState =
-    currAttempt.attempt > attemptVal && correct
-      ? "correct"
-      : almost
-      ? "almost"
-      : "error";
+  let letterState;
+  if (currAttempt.attempt > attemptVal && correct) {
+    letterState = "correct";
+  } else if (currAttempt.attempt > attemptVal && almost) {
+    letterState = "almost";
+  } else {
+    letterState = "error";
+  }
 
   useEffect(() => {
     if (letter !== "" && !correct && !almost) {
