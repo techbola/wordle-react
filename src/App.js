@@ -50,14 +50,17 @@ function App() {
       currWord += board[currAttempt.attempt][i];
     }
 
-    // validate that the word user input is a valida word
+    // validate that the word user input is a valid word
     if (wordSet.has(currWord.toLowerCase())) {
       setCurrAttempt({ attempt: currAttempt.attempt + 1, letterPos: 0 });
     } else {
       alert("Word Not found");
     }
 
-    if (currWord === correctWord) {
+    console.log("currWord", currWord);
+    console.log("correctWord", correctWord);
+
+    if (currWord.toLowerCase() === correctWord) {
       SetGameOver({
         gameOver: true,
         guessedWord: true,
@@ -76,7 +79,7 @@ function App() {
   return (
     <div className="App">
       <nav>
-        <h1>Wordle</h1>
+        <h1>Wordle Clone &#128513;</h1>
       </nav>
       <AppContext.Provider
         value={{
