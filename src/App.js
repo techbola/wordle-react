@@ -74,7 +74,7 @@ function App() {
   };
 
   return (
-    <div className="App">
+    <div className="App" style={{ height: window.innerHeight }}>
       <nav>
         <h1>Wordle Clone &#128513;</h1>
       </nav>
